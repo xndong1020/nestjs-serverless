@@ -1,0 +1,43 @@
+service: serverless-example
+
+variablesResolutionMode: 20210219
+
+plugins:
+  - serverless-webpack
+  - serverless-prune-plugin
+
+provider:
+  name: aws
+  iam:
+    role:
+      managedPolicies: ${file(serverless/iam.yml)}
+  runtime: nodejs14.x
+  region: ap-southeast-2
+  lambdaHashingVersion: 20201221
+  stage: dev
+  logRetentionInDays: 7
+  endpointType: EDGE
+  apiGateway:
+    minimumCompressionSize: 16384
+    shouldStartNameWithService: true
+
+custom:
+  prune:
+    automatic: true
+    number: 3
+
+functions:
+  api:
+    handler: src/lambda.handler
+    memorySize: 1536
+    maximumRetryAttempts: 0
+    timeout: 900
+    events:
+      - http:
+          method: ANY
+          path: /graphql
+          cors: true
+      - schedule:
+          name: warm_up_dev
+          description: "your scheduled rate event description"
+          rate: rate(5 minutes)
