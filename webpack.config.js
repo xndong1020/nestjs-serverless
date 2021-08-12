@@ -21,7 +21,7 @@ module.exports = (async () => {
       {
         module: /^(?!CriticalDependenciesWarning$)/, // A RegExp
       },
-      warning => true,
+      (warning) => true,
     ],
     stats: {
       modules: false,
@@ -54,6 +54,11 @@ module.exports = (async () => {
               loader: 'ts-loader',
             },
           ],
+        },
+        {
+          test: /\.html/,
+          type: 'asset/source',
+          exclude: /node_modules\/bcrypt/,
         },
       ],
     },
@@ -98,7 +103,7 @@ module.exports = (async () => {
           test: [
             {
               folder: '.webpack/service/src',
-              method: absoluteItemPath => {
+              method: (absoluteItemPath) => {
                 return new RegExp(/\.map$/, 'm').test(absoluteItemPath);
               },
               recursive: true,
