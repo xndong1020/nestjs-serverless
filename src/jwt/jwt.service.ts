@@ -9,9 +9,11 @@ export class JwtService {
   constructor(
     @Inject(JWT_CONFIG_OPTIONS) private readonly options: JwtModuleOptions,
   ) {}
+
   async sign(payload: object): Promise<string> {
     return await sign(payload, this.options.secretKey);
   }
+
   // to return the decoded token, hence the return type is string | object
   verify(target: string) {
     return verify(target, this.options.secretKey);

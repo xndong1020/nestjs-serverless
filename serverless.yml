@@ -29,7 +29,6 @@ custom:
 functions:
   api:
     handler: src/lambda.handler
-    memorySize: 1536
     maximumRetryAttempts: 0
     timeout: 900
     events:

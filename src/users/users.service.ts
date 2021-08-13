@@ -15,17 +15,16 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-
-    private readonly connection: Connection,
     private readonly jwtService: JwtService,
+    private readonly connection: Connection,
   ) {}
 
   async getAll(): Promise<User[]> {
     return this.usersRepository.find({});
   }
 
-  async getOne(filters: SearchUserFilters): Promise<User> {
-    return this.usersRepository.findOneOrFail({ ...filters });
+  async getOne(filters: SearchUserFilters): Promise<User | undefined> {
+    return this.usersRepository.findOne({ ...filters });
   }
 
   async createUser(newUserDto: CreateUserDto): Promise<QueryResult> {
