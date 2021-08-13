@@ -7,7 +7,7 @@ import { JwtModuleOptions } from './interfaces/jwt-module-options.interface';
 @Injectable()
 export class JwtService {
   constructor(
-    @Inject(JWT_CONFIG_OPTIONS) private readonly options: JwtModuleOptions,
+    @Inject(JWT_CONFIG_OPTIONS) private readonly options: JwtModuleOptions
   ) {}
 
   async sign(payload: object): Promise<string> {

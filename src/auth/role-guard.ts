@@ -13,12 +13,13 @@ export class RoleGuard implements CanActivate {
   }
 
   canActivate(
-    context: ExecutionContext,
+    context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     // the context here is http context, wen can convert it to gqlContext
     const gqlContext = GqlExecutionContext.create(context).getContext();
     // the req['user'] will be now available from gqlContext
-    const user: User = gqlContext['user'];
+    // const user = gqlContext['user'];
+    const { user }: { user: User } = gqlContext;
     return RoleGuard._allowedRoles.includes(user.role); // if user is undefined then block the request
   }
 }
