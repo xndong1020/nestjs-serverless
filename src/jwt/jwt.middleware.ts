@@ -1,4 +1,9 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NestMiddleware
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from './jwt.service';
@@ -26,16 +31,18 @@ export class JwtMiddleware implements NestMiddleware {
 
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
-    const decoded = this.jwtService.verify(bearerToken);
-    if (typeof decoded === 'object' && 'id' in decoded) {
-      console.log('decoded 1', decoded['id']);
-      try {
+    try {
+      const decoded = this.jwtService.verify(bearerToken);
+      if (typeof decoded === 'object' && 'id' in decoded) {
+        console.log('decoded 1', decoded['id']);
         const user = await this.usersService.getOne({ id: decoded['id'] });
+
+        if (!user) throw new Error('User not found');
         req['user'] = user; // add user object to the request object
-      } catch (e) {
-        console.error('error', e);
-        throw new Error('Unauthorized.');
       }
+    } catch (e) {
+      console.log('error', e);
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
     next();

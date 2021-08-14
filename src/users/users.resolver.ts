@@ -27,7 +27,7 @@ export class UsersResolver {
 
   @Mutation((returns) => CreateUserResponse)
   async createUser(
-    @Args('newUser') newUser: CreateUserDto,
+    @Args('newUser') newUser: CreateUserDto
   ): Promise<CreateUserResponse> {
     const [ok, error] = await this.usersService.createUser(newUser);
     return { ok, error };
@@ -35,7 +35,7 @@ export class UsersResolver {
 
   @Mutation((returns) => LoginUserResponse)
   async loginUser(
-    @Args('loginUser') loginUser: LoginUserDto,
+    @Args('loginUser') loginUser: LoginUserDto
   ): Promise<LoginUserResponse> {
     const [ok, error, token] = await this.usersService.loginUser(loginUser);
     return { ok, error, token };

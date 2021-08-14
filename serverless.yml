@@ -1,5 +1,5 @@
 service: serverless-example
-
+useDotenv: true
 variablesResolutionMode: 20210219
 
 plugins:

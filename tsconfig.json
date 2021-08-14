@@ -20,6 +20,6 @@
     "skipLibCheck": true,
     "sourceRoot": "/",
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules", "*.js", "*.md"]
 }
