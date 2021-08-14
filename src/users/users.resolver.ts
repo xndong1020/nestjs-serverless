@@ -5,7 +5,6 @@ import { LoginUserDto } from './dtos/login-user.dto';
 import { LoginUserResponse } from './dtos/login-user.response';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { UserRole } from 'src/common/enums/USER_ROLE.enum';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { CreateUserResponse } from './dtos/create-user.response';
 import { AuthUser } from 'src/auth/auth-user.decorator';

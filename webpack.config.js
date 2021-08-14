@@ -60,6 +60,11 @@ module.exports = (async () => {
           type: 'asset/source',
           exclude: /node_modules\/bcrypt/,
         },
+        {
+          test: /\.cs/,
+          type: 'asset/source',
+          exclude: /node_modules\/node-gyp/,
+        },
       ],
     },
     plugins: [

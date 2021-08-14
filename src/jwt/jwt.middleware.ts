@@ -7,7 +7,7 @@ import { JwtService } from './jwt.service';
 export class JwtMiddleware implements NestMiddleware {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UsersService,
+    private readonly usersService: UsersService
   ) {}
 
   async use(req: Request, res: Response, next: () => void) {
@@ -17,7 +17,6 @@ export class JwtMiddleware implements NestMiddleware {
       req.body.query.includes('createUser') ||
       req.body.query.includes('loginUser')
     ) {
-      console.log('skip jwt checking');
       next();
       return;
     }

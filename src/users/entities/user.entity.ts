@@ -20,10 +20,9 @@ export class User extends CoreEntity {
   @Length(6, 10)
   password: string;
 
-  @Field(type => UserRole)
-  @Column({ type: 'enum', enum: UserRole })
-  @IsEnum(UserRole)
-  role: UserRole;
+  @Field()
+  @Column()
+  role: string;
 
   @BeforeInsert()
   @BeforeUpdate()
