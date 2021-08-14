@@ -22,29 +22,30 @@ import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionO
 const getTypeOrmConnectionOptions = ():
   | MysqlConnectionOptions
   | SqliteConnectionOptions => {
-  if (process.env.NODE_ENV === 'dev') {
+  if (process.env.NODE_ENV === 'test') {
     return {
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT!,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      type: 'sqlite',
+      database: ':memory:',
       entities: [User],
-      synchronize: true,
-      logging: ['error'],
-      extra: {
-        connectionLimit: 100
-      }
-    } as MysqlConnectionOptions;
+      logging: false,
+      synchronize: true
+    };
   }
+
   return {
-    type: 'sqlite',
-    database: ':memory:',
+    type: 'mysql',
+    host: process.env.DB_HOST,
+    port: +process.env.DB_PORT!,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     entities: [User],
-    logging: false,
-    synchronize: true
-  };
+    synchronize: true,
+    logging: ['error'],
+    extra: {
+      connectionLimit: 100
+    }
+  } as MysqlConnectionOptions;
 };
 
 @Module({
@@ -62,7 +63,6 @@ const getTypeOrmConnectionOptions = ():
       ignoreEnvFile: process.env.NODE_ENV === 'production',
       validationSchema: Joi.object({
         NODE_ENV: Joi.string().valid('dev', 'production', 'test').required(),
-        DB_TYPE: Joi.string().valid('mysql', 'sqlite').required(),
         DB_HOST: Joi.string(),
         DB_PORT: Joi.string(),
         DB_USERNAME: Joi.string(),
