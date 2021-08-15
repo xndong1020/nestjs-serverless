@@ -1,0 +1,35 @@
+version: 2.1
+
+# Pipeline parameters
+parameters:
+  workflow_ondemand:
+    type: boolean
+    default: false
+  workflow_job2_ondemand:
+    type: boolean
+    default: false
+  workflow_job2_param1_version:
+    type: string
+    default: "invalid version"
+
+workflows:
+  version: 2
+
+  normal-workflow:
+    unless: << pipeline.parameters.workflow_ondemand >>
+    jobs:
+      - job1:
+          docker:
+          - image: cimg/node:14.17.3
+          steps:
+            - checkout # check out the code in the project directory
+            - run: echo "hello world" # run the `echo` command
+  workflow-job2-ondemand:
+    when: << pipeline.parameters.workflow_job2_ondemand >>
+    jobs:
+      - job2:
+          docker:
+          - image: cimg/node:14.17.3 
+          steps:
+            - checkout # check out the code in the project directory
+            - run: echo "hello world" # run the `echo` command
