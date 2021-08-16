@@ -23,7 +23,7 @@ workflows:
   version: 2
 
   normal-workflow:
-    unless: << pipeline.parameters.workflow_ondemand >>
+    when: << pipeline.parameters.workflow_ondemand >>
     jobs:
       - build
   workflow-job2-ondemand:
